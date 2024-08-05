@@ -102,8 +102,23 @@
 
 <br>
 
+- `데이터 동기화`
+  - ElasticSearch에 저장된 데이터와 외부 API에서 제공하는 데이터를 주기적으로 비교하여 최신성을 유지합니다. 
+  - API 호출 결과와 ES에 저장된 데이터가 다를 경우, 유효성 검사를 통해 주기적(1일 1회)으로 외부 API를 호출하여 최신화를 유지합니다.
+
+<br>
+
+- `데이터 흐름`
+  - 사용자가 특정 여행지를 검색할 때, 먼저 ElasticSearch에서 데이터를 검색합니다.
+  - ElasticSearch에 데이터가 존재하면, 이를 반환합니다.
+  - ElasticSearch에 데이터가 없으면, 외부 API를 호출하여 데이터를 수집합니다.
+  - 수집된 데이터를 ElasticSearch에 인덱싱합니다.
+  - 사용자는 최신 데이터를 기반으로 검색 결과를 받습니다.
+
+<br>
+
 ## 🔸 ERD
-![trip-java-erd](https://github.com/user-attachments/assets/b470c5d3-3627-4490-abfd-374c0975f36e)
+![trip-java-erd](https://github.com/user-attachments/assets/1098678c-f240-478b-84ce-d55ad82254eb)
 
 <br>
 
@@ -115,5 +130,6 @@
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black">
-  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/-ElasticSearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 </div>
