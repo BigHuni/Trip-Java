@@ -118,7 +118,7 @@
 <br>
 
 ## 🔸 ERD
-![trip-java-erd](https://github.com/user-attachments/assets/1098678c-f240-478b-84ce-d55ad82254eb)
+![erd](https://github.com/user-attachments/assets/689836dd-8cde-459a-8e46-dfff1eaa1e2a)
 
 <br>
 
