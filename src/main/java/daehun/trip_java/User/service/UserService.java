@@ -22,8 +22,8 @@ public class UserService implements UserDetailsService {
   // 회원가입 정보 저장
   public User save(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setCreated_at(LocalDateTime.now());
-    user.setUpdated_at(LocalDateTime.now());
+    user.setCreatedAt(LocalDateTime.now());
+    user.setUpdatedAt(LocalDateTime.now());
     return userRepository.save(user);
   }
 

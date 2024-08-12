@@ -19,11 +19,11 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long user_id;
+  private Long userId;
 
   private String username;
   private String password;
   private String email;
-  private LocalDateTime created_at;
-  private LocalDateTime updated_at;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }
