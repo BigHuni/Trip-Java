@@ -16,8 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
+
+  // 생성자 주입
+  public SecurityConfig(UserService userService) {
+    this.userService = userService;
+  }
 
   // 해시함수로 사용자 비밀번호 인코딩
   @Bean
