@@ -3,6 +3,7 @@ package daehun.trip_java.User.service;
 import daehun.trip_java.User.domain.User;
 import daehun.trip_java.User.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,16 +34,14 @@ public class UserService implements UserDetailsService {
 
   // 사용자 조회
   public User findByUsername(String username) {
-    return userRepository.findByUsername(username);
+    Optional<User> optionalUser = userRepository.findByUsername(username);
+    return optionalUser.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
   }
 
   // 사용자 인증
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username);
-    if (user == null) {
-      throw new UsernameNotFoundException("사용자를 찾지 못했습니다.");
-    }
+    User user = findByUsername(username);
 
     return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
         .password(user.getPassword())
