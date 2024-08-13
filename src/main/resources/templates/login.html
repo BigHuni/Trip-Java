@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login</title>
+</head>
+<body>
+<h1>Login Page</h1>
+<form th:action="@{/login}" method="post">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+  </div>
+  <div>
+    <button type="submit">Login</button>
+  </div>
+</form>
+
+<!-- 구글 소셜 로그인 -->
+<div>
+  <a href="#" onclick="document.getElementById('google-login-form').submit();">
+    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" alt="구글 로그인 연동">
+  </a>
+</div>
+
+<form id="google-login-form" th:action="@{/oauth2/authorization/google}" method="get"></form>
+
+</body>
+</html>
