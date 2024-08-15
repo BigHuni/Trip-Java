@@ -1,6 +1,7 @@
 package daehun.trip_java.User.security;
 
 import daehun.trip_java.User.domain.User;
+import daehun.trip_java.User.dto.UserDTO;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -10,11 +11,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class CustomOAuth2User implements OAuth2User {
 
-  private final User user;
+  private final UserDTO userDTO;
   private final Map<String, Object> attributes;
 
-  public CustomOAuth2User(User user, Map<String, Object> attributes) {
-    this.user = user;
+  public CustomOAuth2User(UserDTO userDTO, Map<String, Object> attributes) {
+    this.userDTO = userDTO;
     this.attributes = attributes;
   }
 
@@ -30,7 +31,7 @@ public class CustomOAuth2User implements OAuth2User {
 
   @Override
   public String getName() {
-    return user.getUsername();    // 사용자 이름 반환
+    return userDTO.getUsername();    // 사용자 이름 반환
   }
 
 }

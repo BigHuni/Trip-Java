@@ -1,6 +1,7 @@
 package daehun.trip_java.User.service;
 
 import daehun.trip_java.User.domain.User;
+import daehun.trip_java.User.dto.UserDTO;
 import daehun.trip_java.User.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -33,18 +34,30 @@ public class UserService implements UserDetailsService {
   }
 
   // 사용자 조회
-  public User findByUsername(String username) {
+  public UserDTO findByUsername(String username) {
     Optional<User> optionalUser = userRepository.findByUsername(username);
-    return optionalUser.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+    User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+    return toUserDTO(user);
+  }
+
+  // UserDTO
+  private UserDTO toUserDTO(User user) {
+    UserDTO userDTO = new UserDTO();
+    userDTO.setUserId(user.getUserId());
+    userDTO.setUsername(user.getUsername());
+    userDTO.setEmail(user.getEmail());
+    userDTO.setCreatedAt(user.getCreatedAt());
+    userDTO.setUpdatedAt(user.getUpdatedAt());
+    return userDTO;
   }
 
   // 사용자 인증
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = findByUsername(username);
+    UserDTO userDTO = findByUsername(username);
 
-    return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
-        .password(user.getPassword())
+    return org.springframework.security.core.userdetails.User.withUsername(userDTO.getUsername())
+        .password(userDTO.getPassword())
         .roles("USER")
         .build();
   }
