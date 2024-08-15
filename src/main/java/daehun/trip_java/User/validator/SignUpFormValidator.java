@@ -23,7 +23,7 @@ public class SignUpFormValidator implements Validator {
     SignUpForm signUpForm = (SignUpForm) target;
 
     // 사용자 중복 체크
-    if (userRepository.findByUsername(signUpForm.getUsername()).isPresent()) {
+    if (userRepository.existsByUsername(signUpForm.getUsername())) {
       errors.rejectValue("username", "duplicate.username", "이미 사용중인 아이디입니다.");
     }
 
