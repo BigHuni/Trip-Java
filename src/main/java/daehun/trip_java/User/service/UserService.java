@@ -42,13 +42,13 @@ public class UserService implements UserDetailsService {
 
   // UserDTO
   private UserDTO toUserDTO(User user) {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setUserId(user.getUserId());
-    userDTO.setUsername(user.getUsername());
-    userDTO.setEmail(user.getEmail());
-    userDTO.setCreatedAt(user.getCreatedAt());
-    userDTO.setUpdatedAt(user.getUpdatedAt());
-    return userDTO;
+    return UserDTO.builder()
+        .userId(user.getUserId())
+        .username(user.getUsername())
+        .email(user.getEmail())
+        .createdAt(user.getCreatedAt())
+        .updatedAt(user.getUpdatedAt())
+        .build();
   }
 
   // 사용자 인증
