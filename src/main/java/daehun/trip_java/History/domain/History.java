@@ -1,5 +1,7 @@
 package daehun.trip_java.History.domain;
 
+import daehun.trip_java.Search.domain.Place;
+import daehun.trip_java.Search.repository.PlaceRepository;
 import daehun.trip_java.Trip.domain.Trip;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,10 +32,10 @@ public class History {
   private Long historyId;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tripId", nullable = false)
+  @JoinColumn(name = "trip_id", nullable = false)
   private Trip trip;
 
-  @Column(nullable = false)
+  @Column(name = "place_id", nullable = false)
   private Long placeId;
 
   @Column(nullable = false)
@@ -45,5 +47,11 @@ public class History {
   @PrePersist
   protected void onCreate() {
     createdAt = LocalDateTime.now();
+  }
+
+  // Place를 직접 조회하는 메서드
+  public Place getPlace(PlaceRepository placeRepository) {
+    return placeRepository.findById(placeId)
+        .orElseThrow(() -> new RuntimeException("해당 ID의 장소를 찾을 수 없습니다. : " + placeId));
   }
 }

@@ -1,11 +1,14 @@
 package daehun.trip_java.Trip.controller;
 
 import daehun.trip_java.History.domain.History;
+import daehun.trip_java.Search.domain.Place;
+import daehun.trip_java.Search.repository.PlaceRepository;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.service.TripService;
 import daehun.trip_java.User.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -61,5 +64,18 @@ public class TripController {
   public String updateHistorySequence(@PathVariable Long historyId, @RequestParam int newSequence) {
     tripService.updateHistorySequence(historyId, newSequence);
     return "redirect:/trips/histories";
+  }
+
+  // 최적 경로 계산
+  @PostMapping("/{tripId}/calculate-optimal-path")
+  public String calculateOptimalPath(@PathVariable Long tripId, Model model, PlaceRepository placeRepository) {
+    List<History> histories = tripService.getHistoriesByTrip(tripId);
+    List<Place> places = histories.stream()
+        .map(history -> history.getPlace(placeRepository)) // Place를 Elasticsearch에서 조회
+        .collect(Collectors.toList());
+    List<Place> optimalPath = tripService.calculateOptimalPath(places);
+
+    model.addAttribute("optimalPath", optimalPath);
+    return "optimalPath";
   }
 }

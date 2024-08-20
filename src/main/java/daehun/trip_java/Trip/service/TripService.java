@@ -2,12 +2,17 @@ package daehun.trip_java.Trip.service;
 
 import daehun.trip_java.History.Repository.HistoryRepository;
 import daehun.trip_java.History.domain.History;
+import daehun.trip_java.Search.domain.Place;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.repository.TripRepository;
 import daehun.trip_java.User.domain.User;
 import daehun.trip_java.User.repository.UserRepository;
+import daehun.trip_java.Way.DijkstraAlgorithm;
+import daehun.trip_java.Way.PlaceGraph;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -63,5 +68,31 @@ public class TripService {
         .orElseThrow(() -> new IllegalArgumentException("해당 경유지를 찾을 수 없습니다."));
     history.setSequence(newSequence);
     historyRepository.save(history);
+  }
+
+  // 최적 경로 계산
+  public List<Place> calculateOptimalPath(List<Place> places) {
+    PlaceGraph graph = new PlaceGraph();
+
+    // 그래프에 장소 추가 및 연결
+    for (Place place : places) {
+      graph.addPlace(place);
+    }
+
+    for (int i = 0; i < places.size(); i++) {
+      for (int j = i + 1; j < places.size(); j++) {
+        graph.addConnection(places.get(i), places.get(j));
+      }
+    }
+
+    // 다익스트라 알고리즘을 통해 최적 경로 계산
+    DijkstraAlgorithm dijkstra = new DijkstraAlgorithm();
+    Map<Place, Double> shortestPaths = dijkstra.calculateShortestPath(graph, places.get(0));
+
+    // 최적 경로를 리스트로 반환 (가장 짧은 순으로 정렬)
+    return shortestPaths.entrySet().stream()
+        .sorted(Map.Entry.comparingByValue())
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
   }
 }
