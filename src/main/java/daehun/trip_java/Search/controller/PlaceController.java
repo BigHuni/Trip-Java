@@ -6,6 +6,7 @@ import daehun.trip_java.Search.service.PlaceService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,7 @@ public class PlaceController {
     return placeService.getNearbyPlaces(latitude, longitude);
   }
 
-  @GetMapping("/api/collect-seoul-data")
+  @PostMapping("/api/collect-seoul-data")
   public String collectSeoulData() {
     placeDataService.saveTouristAttractions();
     return "서울시 관광지 데이터가 수집되어 Elasticsearch에 저장되었습니다.";
