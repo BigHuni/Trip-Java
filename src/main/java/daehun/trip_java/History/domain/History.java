@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,9 @@ public class History {
 
   @Column(name = "place_id", nullable = false)
   private Long placeId;
+
+  @Transient // ES의 Place를 관리하기 위해 JPA 관리 대상에서 제외
+  private Place place;
 
   @Column(nullable = false)
   private Integer sequence;

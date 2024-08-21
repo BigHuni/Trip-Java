@@ -1,6 +1,8 @@
 package daehun.trip_java.Trip.domain;
 
+import daehun.trip_java.History.domain.History;
 import daehun.trip_java.User.domain.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,11 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +47,9 @@ public class Trip {
 
   @Column(nullable = false)
   private LocalDate endDate;
+
+  @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<History> histories;
 
   private LocalDateTime createdAt;
 

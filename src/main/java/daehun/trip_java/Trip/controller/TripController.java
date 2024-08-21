@@ -42,7 +42,15 @@ public class TripController {
   }
 
   @PostMapping
-  public String createTrip(@AuthenticationPrincipal User user, @ModelAttribute Trip trip, @RequestParam List<History> histories) {
+  public String createTrip(@AuthenticationPrincipal User user, @ModelAttribute Trip trip, @RequestParam List<Long> placeIds) {
+    List<History> histories = placeIds.stream()
+        .map(placeId -> {
+          History history = new History();
+          history.setPlaceId(placeId);
+          return history;
+        })
+        .collect(Collectors.toList());
+
     tripService.createTrip(user.getUsername(), trip.getTripName(), trip.getStartDate(), trip.getEndDate(), histories);
     return "redirect:/trips";
   }
