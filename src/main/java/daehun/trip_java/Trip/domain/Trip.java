@@ -1,0 +1,60 @@
+package daehun.trip_java.Trip.domain;
+
+import daehun.trip_java.User.domain.User;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "trip")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Trip {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long tripId;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "userId", nullable = false)
+  private User user;
+
+  @Column(nullable = false)
+  private String tripName;
+
+  @Column(nullable = false)
+  private LocalDate startDate;
+
+  @Column(nullable = false)
+  private LocalDate endDate;
+
+  private LocalDateTime createdAt;
+
+  private LocalDateTime updatedAt;
+
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
+}
