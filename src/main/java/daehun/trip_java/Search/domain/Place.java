@@ -1,6 +1,7 @@
 package daehun.trip_java.Search.domain;
 
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -29,4 +30,7 @@ public class Place {
 
   @Field(type = FieldType.Double)
   private Float rating;
+
+  @Field(type = FieldType.Date)
+  private LocalDateTime updatedAt;
 }
