@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class SeoulOpenDataService {
@@ -24,7 +25,11 @@ public class SeoulOpenDataService {
   }
 
   public List<Place> getTouristAttractions() {
-    String url = String.format("http://openapi.seoul.go.kr:8088/%s/json/TouristAttractionsInfo/1/1000/", apiKey);
+    String url = UriComponentsBuilder.fromHttpUrl("http://openapi.seoul.go.kr:8088")
+        .pathSegment(apiKey, "json", "TouristAttractionsInfo", "1", "1000")
+        .build()
+        .toUriString();
+
     String response = restTemplate.getForObject(url, String.class);
 
     return parseResponse(response);
