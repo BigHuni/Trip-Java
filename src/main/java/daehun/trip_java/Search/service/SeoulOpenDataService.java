@@ -1,8 +1,7 @@
 package daehun.trip_java.Search.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import daehun.trip_java.Search.domain.Place;
+import daehun.trip_java.Search.dto.TouristAttractionsResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,14 +13,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SeoulOpenDataService {
 
   private final RestTemplate restTemplate;
-  private final ObjectMapper objectMapper;
 
   @Value("${seoul.api.key}")
   private String apiKey;
 
-  public SeoulOpenDataService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+  public SeoulOpenDataService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
-    this.objectMapper = objectMapper;
   }
 
   public List<Place> getTouristAttractions() {
@@ -30,27 +27,22 @@ public class SeoulOpenDataService {
         .build()
         .toUriString();
 
-    String response = restTemplate.getForObject(url, String.class);
+    TouristAttractionsResponse response = restTemplate.getForObject(url, TouristAttractionsResponse.class);
 
-    return parseResponse(response);
+    return mapToPlaces(response);
   }
 
-  private List<Place> parseResponse(String response) {
+  private List<Place> mapToPlaces(TouristAttractionsResponse response) {
     List<Place> places = new ArrayList<>();
-    try {
-      JsonNode root = objectMapper.readTree(response);
-      JsonNode items = root.path("TouristAttractionsInfo").path("row");
-
-      for (JsonNode item : items) {
+    if (response != null && response.getTouristAttractionsInfo() != null) {
+      for (TouristAttractionsResponse.TouristAttraction attraction : response.getTouristAttractionsInfo().getAttractions()) {
         Place place = new Place();
-        place.setName(item.path("POST_SJ").asText());
-        place.setAddress(item.path("ADDRESS").asText());
-        place.setLatitude(item.path("Y").asDouble());
-        place.setLongitude(item.path("X").asDouble());
+        place.setName(attraction.getName());
+        place.setAddress(attraction.getAddress());
+        place.setLatitude(attraction.getLatitude());
+        place.setLongitude(attraction.getLongitude());
         places.add(place);
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
     return places;
   }
