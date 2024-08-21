@@ -30,7 +30,7 @@ public class TripService {
 
   public List<Trip> getTripsByUsername(String username) {
     User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾기 못했습니다."));
+        .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾지 못했습니다."));
     return tripRepository.findByUser(user);
   }
 }
