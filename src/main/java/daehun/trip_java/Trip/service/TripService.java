@@ -36,10 +36,8 @@ public class TripService {
     Trip savedTrip = tripRepository.save(trip);
 
     // 경유지(History) 저장
-    for (History history : histories) {
-      history.setTrip(savedTrip);
-      historyRepository.save(history);
-    }
+    histories.forEach(history -> history.setTrip(savedTrip));
+    historyRepository.saveAll(histories);
 
     return savedTrip;
   }
