@@ -47,6 +47,11 @@ public class PlaceService {
     return placeRepository.save(newPlace);
   }
 
+  // ID로 장소 검색
+  public Optional<Place> getPlaceById(Long id) {
+    return placeRepository.findById(id);
+  }
+
   // ES 데이터 최신성 확인 로직(1일 1회)
   private boolean isDataStale(Place place) {
     return place.getUpdatedAt().isBefore(LocalDateTime.now().minusDays(1));
