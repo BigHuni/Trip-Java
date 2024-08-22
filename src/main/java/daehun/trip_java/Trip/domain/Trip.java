@@ -1,5 +1,6 @@
 package daehun.trip_java.Trip.domain;
 
+import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.History.domain.History;
 import daehun.trip_java.User.domain.User;
 import jakarta.persistence.CascadeType;
@@ -50,6 +51,9 @@ public class Trip {
 
   @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<History> histories;
+
+  @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Favorite> favorites;
 
   private LocalDateTime createdAt;
 
