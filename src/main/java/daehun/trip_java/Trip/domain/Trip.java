@@ -4,7 +4,9 @@ import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.History.domain.History;
 import daehun.trip_java.User.domain.User;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -48,6 +50,11 @@ public class Trip {
 
   @Column(nullable = false)
   private LocalDate endDate;
+
+  @ElementCollection
+  @CollectionTable(name = "trip_places", joinColumns = @JoinColumn(name = "trip_id"))
+  @Column(name = "place_id")
+  private List<Long> placeIds; // ES에 있는 Place의 ID만 저장
 
   @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<History> histories;

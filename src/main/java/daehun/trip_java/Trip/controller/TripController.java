@@ -2,12 +2,13 @@ package daehun.trip_java.Trip.controller;
 
 import daehun.trip_java.History.domain.History;
 import daehun.trip_java.Search.domain.Place;
-import daehun.trip_java.Search.repository.PlaceRepository;
+import daehun.trip_java.Search.service.PlaceService;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.service.TripService;
 import daehun.trip_java.User.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TripController {
 
   private final TripService tripService;
+  private final PlaceService placeService;
 
   @GetMapping
   public String getTrips(Model model, @AuthenticationPrincipal User user) {
@@ -47,6 +49,12 @@ public class TripController {
         .map(placeId -> {
           History history = new History();
           history.setPlaceId(placeId);
+
+          // Place 정보를 ES에서 가져와서 History에 설정
+          Place place = placeService.getPlaceById(placeId)
+              .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 장소 ID입니다: " + placeId));
+          history.setPlace(place);
+
           return history;
         })
         .collect(Collectors.toList());
@@ -76,10 +84,11 @@ public class TripController {
 
   // 최적 경로 계산
   @PostMapping("/{tripId}/calculate-optimal-path")
-  public String calculateOptimalPath(@PathVariable Long tripId, Model model, PlaceRepository placeRepository) {
+  public String calculateOptimalPath(@PathVariable Long tripId, Model model) {
     List<History> histories = tripService.getHistoriesByTrip(tripId);
     List<Place> places = histories.stream()
-        .map(history -> history.getPlace(placeRepository)) // Place를 Elasticsearch에서 조회
+        .map(history -> placeService.getPlaceById(history.getPlaceId()).orElse(null))
+        .filter(Objects::nonNull)
         .collect(Collectors.toList());
     List<Place> optimalPath = tripService.calculateOptimalPath(places);
 
