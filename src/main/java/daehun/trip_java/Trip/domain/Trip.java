@@ -51,11 +51,6 @@ public class Trip {
   @Column(nullable = false)
   private LocalDate endDate;
 
-  @ElementCollection
-  @CollectionTable(name = "trip_places", joinColumns = @JoinColumn(name = "trip_id"))
-  @Column(name = "place_id")
-  private List<Long> placeIds; // ES에 있는 Place의 ID만 저장
-
   @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<History> histories;
 
