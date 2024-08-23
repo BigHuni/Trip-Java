@@ -5,8 +5,9 @@ import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.repository.TripRepository;
 import daehun.trip_java.User.domain.User;
-import java.util.List;
+import java.awt.print.Pageable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,8 +33,8 @@ public class FavoriteService {
   }
 
   // 특정 사용자의 모든 즐겨찾기 항목 조회
-  public List<Favorite> getFavoritesByUser(User user) {
-    return favoriteRepository.findByUser(user);
+  public Page<Favorite> getFavoritesByUser(User user, Pageable pageable) {
+    return favoriteRepository.findByUser(user, pageable);
   }
 
   // 사용자의 즐겨찾기에서 특정 여행 제거
