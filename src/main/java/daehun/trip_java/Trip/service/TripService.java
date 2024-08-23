@@ -3,6 +3,7 @@ package daehun.trip_java.Trip.service;
 import daehun.trip_java.History.Repository.HistoryRepository;
 import daehun.trip_java.History.domain.History;
 import daehun.trip_java.Search.domain.Place;
+import daehun.trip_java.Search.service.PlaceService;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.repository.TripRepository;
 import daehun.trip_java.User.domain.User;
@@ -23,6 +24,7 @@ public class TripService {
   private final TripRepository tripRepository;
   private final UserRepository userRepository;
   private final HistoryRepository historyRepository;
+  private final PlaceService placeService;
 
   public Trip createTrip(String username, String tripName, LocalDate startDate, LocalDate endDate, List<History> histories) {
     User user = userRepository.findByUsername(username)
@@ -35,8 +37,17 @@ public class TripService {
     trip.setEndDate(endDate);
     Trip savedTrip = tripRepository.save(trip);
 
-    // 경유지(History) 저장
-    histories.forEach(history -> history.setTrip(savedTrip));
+    histories.forEach(history -> {
+      // ES에서 Place 정보를 가져옴
+      Place place = placeService.getPlaceById(history.getPlaceId())
+          .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 장소 ID입니다: " + history.getPlaceId()));
+
+      // History 객체에 Place 설정
+      history.setPlace(place);
+      history.setTrip(savedTrip);
+    });
+
+    // 모든 히스토리 저장
     historyRepository.saveAll(histories);
 
     return savedTrip;
