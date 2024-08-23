@@ -30,7 +30,7 @@ public class CartService {
 
   // 특정 사용자의 모든 장바구니 항목 조회
   public List<Cart> getCartItemsByUser(User user) {
-    return cartRepository.findByUser(user);
+    return cartRepository.findAllByUser(user);
   }
 
   // 사용자의 장바구니에서 특정 여행지 제거
@@ -40,7 +40,7 @@ public class CartService {
 
   // 사용자의 모든 장바구니 항목 제거
   public void clearCart(User user) {
-    List<Cart> cartItems = cartRepository.findByUser(user);
+    List<Cart> cartItems = cartRepository.findAllByUser(user);
     cartRepository.deleteAll(cartItems);
   }
 }
