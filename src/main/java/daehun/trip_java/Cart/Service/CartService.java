@@ -40,7 +40,6 @@ public class CartService {
 
   // 사용자의 모든 장바구니 항목 제거
   public void clearCart(User user) {
-    List<Cart> cartItems = cartRepository.findAllByUser(user);
-    cartRepository.deleteAll(cartItems);
+    cartRepository.deleteAllByUserId(user.getUserId());
   }
 }
