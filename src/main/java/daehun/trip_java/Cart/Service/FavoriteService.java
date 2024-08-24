@@ -5,9 +5,9 @@ import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.Trip.repository.TripRepository;
 import daehun.trip_java.User.domain.User;
-import java.awt.print.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service

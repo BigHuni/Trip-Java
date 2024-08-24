@@ -3,9 +3,9 @@ package daehun.trip_java.Cart.Repository;
 import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.Trip.domain.Trip;
 import daehun.trip_java.User.domain.User;
-import java.awt.print.Pageable;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
