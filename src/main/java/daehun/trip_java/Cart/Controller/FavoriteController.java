@@ -3,8 +3,9 @@ package daehun.trip_java.Cart.Controller;
 import daehun.trip_java.Cart.Service.FavoriteService;
 import daehun.trip_java.Cart.domain.Favorite;
 import daehun.trip_java.User.domain.User;
-import java.util.List;
+import java.awt.print.Pageable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +30,10 @@ public class FavoriteController {
 
   // 사용자의 즐겨찾기 목록 조회
   @GetMapping
-  public ResponseEntity<List<Favorite>> getFavorites(@AuthenticationPrincipal User user) {
-    List<Favorite> favorites = favoriteService.getFavoritesByUser(user);
+  public ResponseEntity<Page<Favorite>> getFavorites(
+      @AuthenticationPrincipal User user,
+      Pageable pageable) {
+    Page<Favorite> favorites = favoriteService.getFavoritesByUser(user, pageable);
     return ResponseEntity.ok(favorites);
   }
 
