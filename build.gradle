@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	implementation 'org.springframework.data:spring-data-elasticsearch'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.postgresql:postgresql:42.7.4'
 	implementation group: 'com.google.maps', name: 'google-maps-services', version: '2.2.0'
 	implementation 'com.google.maps:google-maps-services:0.15.0'  // Google Places API 클라이언트
 	compileOnly 'org.projectlombok:lombok'

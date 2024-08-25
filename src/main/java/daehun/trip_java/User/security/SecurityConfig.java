@@ -39,11 +39,9 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .authenticationProvider(daoAuthenticationProvider())    // 사용자 비밀번호 검증
-        .authorizeHttpRequests(authorizeRequests ->             // 요청 접근 권한 설정
+        .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers("/register", "/login", "/h2-console/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll() // 모든 요청에 대해 접근 허용
         )
         .formLogin(formLogin ->                 // 로그인 관련 설정
             formLogin
