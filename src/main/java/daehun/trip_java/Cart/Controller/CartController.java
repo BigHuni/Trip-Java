@@ -22,7 +22,7 @@ public class CartController {
 
   // 장바구니 여행지 추가
   @PostMapping
-  public ResponseEntity<Cart> addToCart(@AuthenticationPrincipal User user, @RequestParam Long placeId) {
+  public ResponseEntity<Cart> addToCart(@AuthenticationPrincipal User user, @RequestParam String placeId) {
     Cart cart = cartService.addToCart(user, placeId);
     return ResponseEntity.ok(cart);
   }
@@ -36,7 +36,7 @@ public class CartController {
 
   // 장바구니에서 특정 여행지 제거
   @DeleteMapping
-  public ResponseEntity<Void> removeFromCart(@AuthenticationPrincipal User user, @RequestParam Long placeId) {
+  public ResponseEntity<Void> removeFromCart(@AuthenticationPrincipal User user, @RequestParam String placeId) {
     cartService.removeFromCart(user, placeId);
     return ResponseEntity.noContent().build();
   }

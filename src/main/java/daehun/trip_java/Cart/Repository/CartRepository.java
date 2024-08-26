@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
   List<Cart> findAllByUser(User user);
-  void deleteByUserAndPlaceId(User user, Long placeId);
+  void deleteByUserAndPlaceId(User user, String placeId);
 
   @Modifying
   @Transactional

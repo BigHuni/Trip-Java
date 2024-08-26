@@ -36,6 +36,7 @@ public class UserController {
   // 회원가입 폼 제출 후 데이터 처리
   @PostMapping("/register")
   public String registerUser(@Valid @ModelAttribute SignUpForm signUpForm, Errors errors) {
+    System.out.println("signUpForm: " + signUpForm);
     if (errors.hasErrors()) {
       return "register";
     }

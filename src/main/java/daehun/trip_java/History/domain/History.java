@@ -37,7 +37,7 @@ public class History {
   private Trip trip;
 
   @Column(name = "place_id", nullable = false)
-  private Long placeId;
+  private String placeId;
 
   @Transient // ES의 Place를 관리하기 위해 JPA 관리 대상에서 제외
   private Place place;

@@ -22,6 +22,17 @@ public class SignUpFormValidator implements Validator {
   public void validate(Object target, Errors errors) {
     SignUpForm signUpForm = (SignUpForm) target;
 
+    // Null 체크 추가
+    if(signUpForm.getUsername() == null) {
+      errors.rejectValue("username", "username.null", "사용자 이름이 null 입니다.");
+      return;
+    }
+
+    if(signUpForm.getPassword() == null || signUpForm.getPasswordConfirm() == null) {
+      errors.rejectValue("passwordConfirm", "password.null", "비밀번호가 null 입니다.");
+      return;
+    }
+
     // 사용자 중복 체크
     if (userRepository.existsByUsername(signUpForm.getUsername())) {
       errors.rejectValue("username", "duplicate.username", "이미 사용중인 아이디입니다.");

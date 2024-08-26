@@ -48,7 +48,7 @@ public class PlaceService {
   }
 
   // ID로 장소 검색
-  public Optional<Place> getPlaceById(Long id) {
+  public Optional<Place> getPlaceById(String id) {
     return placeRepository.findById(id);
   }
 

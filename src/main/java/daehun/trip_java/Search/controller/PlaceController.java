@@ -26,27 +26,30 @@ public class PlaceController {
   }
 
   // 기존 장소 이름으로 검색
-  @GetMapping("/{name}")
-  public Place getPlace(@PathVariable String name) {
-    return placeService.getPlaceByName(name);
+  @GetMapping("/name/{name}")
+  public ResponseEntity<Place> getPlace(@PathVariable String name) {
+    Place place = placeService.getPlaceByName(name);
+    return ResponseEntity.ok(place);
   }
 
-  // 장바구니 연동
-  @GetMapping("/{id}")
-  public ResponseEntity<Place> getPlaceById(@PathVariable Long id) {
+  // 장소 ID로 검색
+  @GetMapping("/id/{id}")
+  public ResponseEntity<Place> getPlaceById(@PathVariable String id) {
     Optional<Place> place = placeService.getPlaceById(id);
     return place.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   // 반경 내 장소 검색
   @GetMapping("/nearby")
-  public List<Place> getNearbyPlaces(@RequestParam double latitude, @RequestParam double longitude) {
-    return placeService.getNearbyPlaces(latitude, longitude);
+  public ResponseEntity<List<Place>> getNearbyPlaces(@RequestParam double latitude, @RequestParam double longitude) {
+    List<Place> places = placeService.getNearbyPlaces(latitude, longitude);
+    return ResponseEntity.ok(places);
   }
 
+  // 서울시 관광지 데이터 수집
   @PostMapping("/api/collect-seoul-data")
-  public String collectSeoulData() {
+  public ResponseEntity<String> collectSeoulData() {
     placeDataService.saveTouristAttractions();
-    return "서울시 관광지 데이터가 수집되어 Elasticsearch에 저장되었습니다.";
+    return ResponseEntity.ok("서울시 관광지 데이터가 수집되어 Elasticsearch에 저장되었습니다.");
   }
 }

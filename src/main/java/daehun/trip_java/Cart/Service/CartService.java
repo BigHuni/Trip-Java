@@ -15,7 +15,7 @@ public class CartService {
   private final PlaceService placeService;
 
   // 사용자가 여행지를 장바구니에 추가
-  public Cart addToCart(User user, Long placeId) {
+  public Cart addToCart(User user, String placeId) {
 
     // Place 존재 여부 확인
     if (placeService.getPlaceById(placeId).isEmpty()) {
@@ -34,7 +34,7 @@ public class CartService {
   }
 
   // 사용자의 장바구니에서 특정 여행지 제거
-  public void removeFromCart(User user, Long placeId) {
+  public void removeFromCart(User user, String placeId) {
     cartRepository.deleteByUserAndPlaceId(user, placeId);
   }
 

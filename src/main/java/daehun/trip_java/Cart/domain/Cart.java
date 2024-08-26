@@ -34,7 +34,7 @@ public class Cart {
   private User user;
 
   @Column(name = "place_id", nullable = false)
-  private Long placeId;
+  private String placeId;
 
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;

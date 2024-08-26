@@ -4,6 +4,7 @@ import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -14,7 +15,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Place {
 
   @Id
-  private Long id;
+  private String id;
 
   @Field(type = FieldType.Text)
   private String name;
