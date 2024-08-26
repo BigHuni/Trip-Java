@@ -122,6 +122,43 @@
 
 <br>
 
+## 🔸 API 테스트
+
+```
+- 회원가입 (폼 페이지 제공)
+GET /register
+
+- 회원가입 요청
+POST /register
+예시) Request Body
+
+{
+  "username": "exampleUser",
+  "password": "Example@1234",
+  "passwordConfirm": "Example@1234",
+  "email": "exampleuser@example.com"
+}
+
+- 로그인
+POST /login
+예시) Request Body
+
+{
+  "username": "exampleUser",
+  "password": "Example@1234"
+}
+
+- 이름으로 장소 조회
+/places/name/{name}
+예시) GET /places/name/남산타워
+
+- 반경 내 장소 검색
+/places/nearby?latitude={latitude}&longitude={longitude}
+예시) GET /places/nearby?latitude=37.456&longitude=126.951
+```
+
+<br>
+
 ### 🔹 Tech Stack
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
